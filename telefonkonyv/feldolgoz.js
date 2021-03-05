@@ -18,6 +18,7 @@ function kiir() {
         var nev = telefonkonyvem[i].nev;
         var tel = telefonkonyvem[i].tel;
         var kep = telefonkonyvem[i].kep;
+        var ID = telefonkonyvem[i].ID;
         var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button class='torol' id='" + ID + "'>Töröl</button></div>";
         $("article").append(elem);
     }
@@ -28,11 +29,11 @@ function beolvas() {
     $.ajax({
         type: "GET",
         url: "feldolgoz.php",
-        succes: function (result) {
-            console.log("result");
-            telefonkonyvem = JSON.parse(result);
-            console.log(telefonkonyvem);
-            kiir();
+        success: function (result) {
+            console.log(result); /*JSONn formátumban várjuk az AB eredményeit*/
+           telefonkonyvem = JSON.parse(result);
+          console.log(telefonkonyvem); /*JSONn formátumban várjuk az AB eredményeit*/
+           kiir();
         },
         error: function () {
             alert("Hiba az adatok betöltésekor!");
