@@ -1,6 +1,8 @@
 $(function () {
     $("#beolvas").on("click", beolvas);
     $("#kuld").on("click", adBeir);
+    $("article").delegate(".torol", "click", adTorol);
+
 });
 
 var telefonkonyvem = [];
@@ -16,7 +18,7 @@ function kiir() {
         var nev = telefonkonyvem[i].nev;
         var tel = telefonkonyvem[i].tel;
         var kep = telefonkonyvem[i].kep;
-        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button class='torol'>Töröl</button></div>";
+        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button class='torol' id='" + ID + "'>Töröl</button></div>";
         $("article").append(elem);
     }
 }
@@ -27,7 +29,7 @@ function beolvas() {
         type: "GET",
         url: "feldolgoz.php",
         succes: function (result) {
-            console.log(result);
+            console.log("result");
             telefonkonyvem = JSON.parse(result);
             console.log(telefonkonyvem);
             kiir();
@@ -38,13 +40,30 @@ function beolvas() {
     });
 }
 
+function adTorol() {
+    console.log("Törlés");
+    var aktelem = $(this).closest("div");
+    var id = $(this).attr("id");
+
+    $.ajax({
+        type: "DELETE",
+        url: "torles.php?ID=" + id,
+        succes: function () {
+            aktelem.remove();
+        },
+        error: function () {
+            alert("Hiba az adatok törlésekor!");
+        }
+    });
+}
+
 function adBeir() {
     var szemely = {
         nev: $("#nev").val(),
         tel: $("#tel").val(),
         kep: $("#kep").val()
     };
-    
+
     $.ajax({
         type: "POST",
         url: "beir.php",
@@ -60,3 +79,4 @@ function adBeir() {
         }
     });
 }
+
