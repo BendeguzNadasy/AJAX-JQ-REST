@@ -18,7 +18,8 @@ function kiir() {
         var nev = telefonkonyvem[i].nev;
         var tel = telefonkonyvem[i].tel;
         var kep = telefonkonyvem[i].kep;
-        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button class='torol' id='" + ID + "'>Töröl</button></div>";
+        var id = telefonkonyvem[i].ID;
+        var elem = "<div><h2>" + nev + "</h2><p>" + tel + "</p><p>" + kep + "</p><button class='torol' id='" + id + "'>Töröl</button></div>";
         $("article").append(elem);
     }
 }
@@ -28,7 +29,7 @@ function beolvas() {
     $.ajax({
         type: "GET",
         url: "feldolgoz.php",
-        succes: function (result) {
+        success: function (result) {
             console.log("result");
             telefonkonyvem = JSON.parse(result);
             console.log(telefonkonyvem);
@@ -50,6 +51,7 @@ function adTorol() {
         url: "torles.php?ID=" + id,
         succes: function () {
             aktelem.remove();
+            kiir();
         },
         error: function () {
             alert("Hiba az adatok törlésekor!");
