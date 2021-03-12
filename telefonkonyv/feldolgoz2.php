@@ -1,5 +1,0 @@
-<?php
-
-echo "feldolgoz.php";
-
-
